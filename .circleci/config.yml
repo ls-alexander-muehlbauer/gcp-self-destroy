@@ -19,9 +19,7 @@ jobs:
       - image: google/cloud-sdk
     steps:
       - checkout
-      - run: echo $GCLOUD_SERVICE_KEY
       - run: echo $GCLOUD_SERVICE_KEY > ./gcloud-key.json
-      - run: cat ./gcloud-key.json
       - run: |
           gcloud auth activate-service-account --key-file=./gcloud-key.json
           gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
