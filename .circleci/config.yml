@@ -11,10 +11,10 @@ workflows:
   main:
     jobs:
       - start-gcp
+          context: gcp-self-destroy
 
 jobs:
   start-gcp:
-    context: gcp-self-destroy
     docker:
       - image: google/cloud-sdk
     steps:
