@@ -19,11 +19,11 @@ jobs:
     steps:
       - checkout
       - run:
-        name: "This is pipeline ID ${CIRCLE_PIPELINE_ID}"
-        command: echo "This is pipeline ID ${CIRCLE_PIPELINE_ID}"
+          name: "This is pipeline ID ${CIRCLE_PIPELINE_ID}"
+          command: echo "This is pipeline ID ${CIRCLE_PIPELINE_ID}"
       - run:
-        name: "Write GCLOUD_SERVICE_KEY to file: ./gcloud-key.json"
-        command: echo $GCLOUD_SERVICE_KEY > ./gcloud-key.json
+          name: "Write GCLOUD_SERVICE_KEY to file: ./gcloud-key.json"
+          command: echo $GCLOUD_SERVICE_KEY > ./gcloud-key.json
       - run: |
           gcloud auth activate-service-account --key-file=./gcloud-key.json
           gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
