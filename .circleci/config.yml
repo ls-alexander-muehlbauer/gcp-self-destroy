@@ -12,11 +12,13 @@ workflows:
 
 jobs:
   start-gcp:
+    environment:
+      CIRCLE_PIPELINE_ID: "<< pipeline.id >>"
     docker:
       - image: google/cloud-sdk
     steps:
       - checkout
-      - run: echo "This is pipeline ID << pipeline.id >>"
+      - run: echo "This is pipeline ID ${CIRCLE_PIPELINE_ID}"
       - run: echo $GCLOUD_SERVICE_KEY > ./gcloud-key.json
       - run: |
           gcloud auth activate-service-account --key-file=./gcloud-key.json
