@@ -2,7 +2,7 @@ version: 2.1
 
 orbs:
   welcome: circleci/welcome-orb@0.4.1
-  vpn-macos: aetna/vpn-macos@1
+  # vpn-macos: aetna/vpn-macos@1
 
 workflows:
   welcome:
