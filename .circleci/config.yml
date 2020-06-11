@@ -19,7 +19,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: "This is pipeline ID ${CIRCLE_PIPELINE_ID}"
+          name: "This is pipeline ID << pipeline.id >>"
           command: echo "This is pipeline ID ${CIRCLE_PIPELINE_ID}"
       - run:
           name: "Write GCLOUD_SERVICE_KEY to file: ./gcloud-key.json"
