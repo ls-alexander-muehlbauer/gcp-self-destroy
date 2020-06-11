@@ -10,7 +10,7 @@ workflows:
       - welcome/run
   main:
     jobs:
-      - start-gcp
+      - start-gcp:
           context: gcp-self-destroy
 
 jobs:

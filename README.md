@@ -1,1 +1,1 @@
-# gcp-self-destruct
+# gcp-self-destroy
