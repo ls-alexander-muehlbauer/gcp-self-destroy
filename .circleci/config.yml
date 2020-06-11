@@ -17,9 +17,12 @@ jobs:
     docker:
       - image: google/cloud-sdk
     steps:
-      - run: echo $GCLOUD_SERVICE_KEY > gcloud-key.json
+      - checkout
+      - run: echo $GCLOUD_SERVICE_KEY
+      - run: echo $GCLOUD_SERVICE_KEY > ./gcloud-key.json
+      - run: cat ./gcloud-key.json
       - run: |
-          gcloud auth activate-service-account --key-file=gcloud-key.json
+          gcloud auth activate-service-account --key-file=./gcloud-key.json
           gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
           gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
       - run: |
