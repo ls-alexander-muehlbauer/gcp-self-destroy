@@ -9,7 +9,7 @@ executors:
       - image: google/cloud-sdk
     working_directory: /tmp
 
-  python-3.7:
+  python_3-7:
     docker:
       - image: python:3.7
     working_directory: /tmp
@@ -61,7 +61,7 @@ jobs:
           root: workspace
 
   job1:
-    executor: python-3.7
+    executor: python_3-7
     steps:
       - attach_workspace:
           at: /tmp/workspace
@@ -70,7 +70,7 @@ jobs:
           name: "Sleep..."
           command: sleep 30
   job2:
-    executor: python-3.7
+    executor: python_3-7
     steps:
       - attach_workspace:
           at: /tmp/workspace
