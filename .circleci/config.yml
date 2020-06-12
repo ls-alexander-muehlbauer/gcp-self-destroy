@@ -3,6 +3,17 @@ version: 2.1
 orbs:
   gcloud: circleci/gcp-cli@1.8.3
 
+executors:
+  gcloudsdk:
+    docker:
+      - image: google/cloud-sdk
+    working_directory: /tmp
+
+  python-3.7:
+    docker:
+      - image: python:3.7
+    working_directory: /tmp
+
 workflows:
   main:
     jobs:
@@ -19,9 +30,9 @@ jobs:
   start-gcp:
     environment:
       CIRCLE_PIPELINE_ID: "<< pipeline.id >>"
-    docker:
-      - image: google/cloud-sdk
+    executor: gcloudsdk
     steps:
+      - run: mkdir -p ./workspace
       - checkout
       - run:
           name: "This is pipeline ID << pipeline.id >>"
@@ -43,21 +54,27 @@ jobs:
       - run: >
           gcloud compute instances describe circle-${CIRCLE_PIPELINE_ID}
           --zone=us-central1-c
-          --format='get(networkInterfaces[0].accessConfigs[0].natIP)' > ./gcp_instance_ip.txt
+          --format='get(networkInterfaces[0].accessConfigs[0].natIP)' > ./workspace/gcp_instance_ip.txt
       - store_artifacts:
-          path: ./gcp_instance_ip.txt
+          path: ./workspace
+      - persist_to_workspace:
+          root: workspace
 
   job1:
-    docker:
-      - image: python:3.7
+    executor: python-3.7
     steps:
+      - attach_workspace:
+          at: /tmp/workspace
+      - run: ping -c 1 $(cat /tmp/workspace/gcp_instance_ip.txt)
       - run:
           name: "Sleep..."
           command: sleep 30
   job2:
-    docker:
-      - image: python:3.7
+    executor: python-3.7
     steps:
+      - attach_workspace:
+          at: /tmp/workspace
+      - run: ping -c 1 $(cat /tmp/workspace/gcp_instance_ip.txt)
       - run:
           name: "Sleep..."
           command: sleep 30
