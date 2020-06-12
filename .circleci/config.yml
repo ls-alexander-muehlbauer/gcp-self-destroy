@@ -52,7 +52,7 @@ jobs:
       - run: >
           gcloud compute instances describe circle-${CIRCLE_PIPELINE_ID}
           --zone=us-central1-c
-          --format='get(networkInterfaces[0].accessConfigs[0].natIP)' > /artifacts/gcp_instance_ip.txt
+          --format='get(networkInterfaces[0].accessConfigs[0].natIP)' > ~/artifacts/gcp_instance_ip.txt
       - store_artifacts:
           path: ~/artifacts
       - persist_to_workspace:
