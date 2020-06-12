@@ -59,6 +59,7 @@ jobs:
           path: ./workspace
       - persist_to_workspace:
           root: workspace
+          path: ./
 
   job1:
     executor: python_3-7
