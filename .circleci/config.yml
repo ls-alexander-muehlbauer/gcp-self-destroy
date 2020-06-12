@@ -49,21 +49,22 @@ jobs:
           --metadata SELF_DESTRUCT_INTERVAL_MINUTES=2,CIRCLE_API_TOKEN=${CIRCLE_API_TOKEN},CIRCLE_PIPELINE_ID=${CIRCLE_PIPELINE_ID}
           --metadata-from-file startup-script=gcp-keepalive.py
       - run: >
+          mkdir -p ~/artifacts
           gcloud compute instances describe circle-${CIRCLE_PIPELINE_ID}
           --zone=us-central1-c
-          --format='get(networkInterfaces[0].accessConfigs[0].natIP)' > /root/project/gcp_instance_ip.txt
+          --format='get(networkInterfaces[0].accessConfigs[0].natIP)' > /artifacts/gcp_instance_ip.txt
       - store_artifacts:
-          path: /root/project
+          path: ~/artifacts
       - persist_to_workspace:
-          root: /root
-          path: /project
+          root: ~/
+          path: .
 
   job1:
     executor: python_3-7
     steps:
       - attach_workspace:
-          at: /root
-      - run: ping -c 1 $(cat /root/gcp_instance_ip.txt)
+          at: ~/
+      - run: ping -c 1 $(cat ~/gcp_instance_ip.txt)
       - run:
           name: "Sleep..."
           command: sleep 30
@@ -72,7 +73,7 @@ jobs:
     steps:
       - attach_workspace:
           at: /root
-      - run: ping -c 1 $(cat /root/gcp_instance_ip.txt)
+      - run: ping -c 1 $(cat ~/gcp_instance_ip.txt)
       - run:
           name: "Sleep..."
           command: sleep 30
