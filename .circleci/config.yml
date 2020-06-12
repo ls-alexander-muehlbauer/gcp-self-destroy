@@ -31,7 +31,6 @@ jobs:
     executor: gcloudsdk
     steps:
       - checkout
-      - run: mkdir -p ./workspace
       - run:
           name: "This is pipeline ID << pipeline.id >>"
           command: echo "This is pipeline ID ${CIRCLE_PIPELINE_ID}"
@@ -54,16 +53,16 @@ jobs:
           --zone=us-central1-c
           --format='get(networkInterfaces[0].accessConfigs[0].natIP)' > ./workspace/gcp_instance_ip.txt
       - store_artifacts:
-          path: ./workspace
+          path: ./
       - persist_to_workspace:
-          root: workspace
+          root: ,/
           path: ./
 
   job1:
     executor: python_3-7
     steps:
       - attach_workspace:
-          at: ./workspace
+          at: ./
       - run: ping -c 1 $(cat /tmp/workspace/gcp_instance_ip.txt)
       - run:
           name: "Sleep..."
@@ -72,7 +71,7 @@ jobs:
     executor: python_3-7
     steps:
       - attach_workspace:
-          at: ./workspace
+          at: ./
       - run: ping -c 1 $(cat /tmp/workspace/gcp_instance_ip.txt)
       - run:
           name: "Sleep..."
