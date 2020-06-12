@@ -30,8 +30,8 @@ jobs:
           gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
       - run: >
           gcloud compute instances create
-          self-destruct-01
-          --zone=us-central1-c
+          circle-${CIRCLE_PIPELINE_ID}
+          --zone=${GOOGLE_COMPUTE_ZONE}
           --image-family=ubuntu-1804-lts
           --image-project=ubuntu-os-cloud
           --boot-disk-size=200GB
