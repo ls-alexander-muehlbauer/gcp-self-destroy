@@ -53,16 +53,16 @@ jobs:
           --zone=us-central1-c
           --format='get(networkInterfaces[0].accessConfigs[0].natIP)' > ./gcp_instance_ip.txt
       - store_artifacts:
-          path: ./
+          path: ./*
       - persist_to_workspace:
-          root: ./
-          path: ./
+          root: ~/
+          path: ./*
 
   job1:
     executor: python_3-7
     steps:
       - attach_workspace:
-          at: ./
+          at: ~/
       - run: ping -c 1 $(cat ./gcp_instance_ip.txt)
       - run:
           name: "Sleep..."
