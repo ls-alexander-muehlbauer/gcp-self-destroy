@@ -56,7 +56,7 @@ jobs:
           path: ./*
       - persist_to_workspace:
           root: ~/
-          path: ./*
+          path: ./gcp_instance_ip.txt
 
   job1:
     executor: python_3-7
@@ -71,7 +71,7 @@ jobs:
     executor: python_3-7
     steps:
       - attach_workspace:
-          at: ./
+          at: ~/
       - run: ping -c 1 $(cat ./gcp_instance_ip.txt)
       - run:
           name: "Sleep..."
