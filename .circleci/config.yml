@@ -51,12 +51,12 @@ jobs:
       - run: >
           gcloud compute instances describe circle-${CIRCLE_PIPELINE_ID}
           --zone=us-central1-c
-          --format='get(networkInterfaces[0].accessConfigs[0].natIP)' > ./gcp_instance_ip.txt
+          --format='get(networkInterfaces[0].accessConfigs[0].natIP)' > ~/gcp_instance_ip.txt
       - store_artifacts:
           path: ./*
       - persist_to_workspace:
           root: ~/
-          path: ./gcp_instance_ip.txt
+          path: gcp_instance_ip.txt
 
   job1:
     executor: python_3-7
