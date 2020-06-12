@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  welcome: circleci/welcome-orb@0.4.1
+  gcloud: circleci/gcp-cli@1.8.3
 
 workflows:
   main:
@@ -26,13 +26,10 @@ jobs:
       - run:
           name: "This is pipeline ID << pipeline.id >>"
           command: echo "This is pipeline ID ${CIRCLE_PIPELINE_ID}"
-      - run:
-          name: "Write GCLOUD_SERVICE_KEY to file: ./gcloud-key.json"
-          command: echo $GCLOUD_SERVICE_KEY > ./gcloud-key.json
-      - run: |
-          gcloud auth activate-service-account --key-file=./gcloud-key.json
-          gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
-          gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
+      - gcloud/initialize:
+          gcloud-service-key: $GCLOUD_SERVICE_KEY
+          google-compute-zone: ${GOOGLE_COMPUTE_ZONE}
+          google-project-id: ${GOOGLE_PROJECT_ID}
       - run: >
           gcloud compute instances create
           circle-${CIRCLE_PIPELINE_ID}
