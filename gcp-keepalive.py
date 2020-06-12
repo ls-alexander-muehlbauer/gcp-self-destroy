@@ -25,13 +25,25 @@ You can use this script in the "gcloud compute instances create" command as foll
 """
 
 import json
+import logging
 import os
 import shlex
 import socket
 import subprocess
+import sys
 import time
 import urllib.request
 from typing import List
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+stream_handler = logging.StreamHandler(sys.stdout)
+formatter = logging.Formatter(
+    fmt="%(asctime)s | %(levelname)-7s | [%(name)s] %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+)
+stream_handler.setFormatter(formatter)
+logger.addHandler(stream_handler)
 
 DEFAULT_SELF_DESTRUCT_INTERVAL_MIN = os.getenv("DEFAULT_SELF_DESTRUCT_MIN", 2)
 
@@ -46,7 +58,7 @@ def get_instance_metadata(name: str, default_value: str = "") -> str:
             result = response.read()
     except Exception:
         result = default_value
-    metadata_value = str(result)
+    metadata_value = str(result.decode("utf-8"))
     return metadata_value
 
 
@@ -75,11 +87,12 @@ def get_instance_zone() -> str:
     req = urllib.request.Request(url, headers=headers)
     with urllib.request.urlopen(req) as response:
         result = response.read()
-    instance_zone = str(result).split("/")[-1]
+    instance_zone = str(result.decode("utf-8")).split("/")[-1]
     return instance_zone
 
 
 def get_work_flows(circle_pipeline_id: str, circle_api_token: str) -> List:
+    logger.info("Polling Pipeline Status...")
     url = f"https://circleci.com/api/v2/pipeline/{circle_pipeline_id}/workflow"
     headers = {"Accept": "application/json", "Circle-Token": circle_api_token}
     req = urllib.request.Request(url, headers=headers)
@@ -95,12 +108,15 @@ def should_terminate_vm(work_flows: List) -> bool:
     for work_flow in work_flows:
         status = work_flow.get("status", None)
         if status in running_status:
+            logger.info("Pipeline is still running.")
             return False
 
+    logger.info("Pipeline has finished.")
     return True
 
 
 def terminate_vm():
+    logger.info("Terminating VM...")
     hostname = socket.gethostname()
     instance_zone = get_instance_zone()
     command = f"gcloud compute instances delete {hostname} --zone={instance_zone}"
