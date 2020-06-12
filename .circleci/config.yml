@@ -8,6 +8,12 @@ workflows:
     jobs:
       - start-gcp:
           context: gcp-self-destroy
+      - job1:
+          requires:
+            - start-gcp
+      - job2:
+          requires:
+            - start-gcp
 
 jobs:
   start-gcp:
@@ -37,7 +43,23 @@ jobs:
           --scopes=https://www.googleapis.com/auth/compute,https://www.googleapis.com/auth/servicecontrol,https://www.googleapis.com/auth/service.management.readonly,https://www.googleapis.com/auth/logging.write,https://www.googleapis.com/auth/monitoring.write,https://www.googleapis.com/auth/trace.append,https://www.googleapis.com/auth/devstorage.read_only
           --metadata SELF_DESTRUCT_INTERVAL_MINUTES=2,CIRCLE_API_TOKEN=${CIRCLE_API_TOKEN},CIRCLE_PIPELINE_ID=${CIRCLE_PIPELINE_ID}
           --metadata-from-file startup-script=gcp-keepalive.py
+      - run: >
+          gcloud compute instances describe circle-${CIRCLE_PIPELINE_ID}
+          --format='get(networkInterfaces[0].accessConfigs[0].natIP)' > ./gcp_instance_ip.txt
+      - store_artifacts:
+          path: ./gcp_instance_ip.txt
+
+  job1:
+    docker:
+      - image: python3.7
+    steps:
       - run:
           name: "Sleep..."
-          command: sleep 180
-
+          command: sleep 30
+  job2:
+    docker:
+      - image: python3.7
+    steps:
+      - run:
+          name: "Sleep..."
+          command: sleep 30

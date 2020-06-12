@@ -136,7 +136,7 @@ def main():
         work_flows = get_work_flows(circle_pipeline_id, circle_api_token)
         if should_terminate_vm(work_flows):
             terminate_vm()
-        time.sleep(5)
+        time.sleep(2)
     else:
         terminate_vm()
 
