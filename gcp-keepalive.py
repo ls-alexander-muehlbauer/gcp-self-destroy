@@ -93,6 +93,7 @@ def get_instance_zone() -> str:
 
 def get_work_flows(circle_pipeline_id: str, circle_api_token: str) -> List:
     logger.info("Polling Pipeline Status...")
+
     url = f"https://circleci.com/api/v2/pipeline/{circle_pipeline_id}/workflow"
     headers = {"Accept": "application/json", "Circle-Token": circle_api_token}
     req = urllib.request.Request(url, headers=headers)
@@ -117,6 +118,7 @@ def should_terminate_vm(work_flows: List) -> bool:
 
 def terminate_vm():
     logger.info("Terminating VM...")
+
     hostname = socket.gethostname()
     instance_zone = get_instance_zone()
     command = f"gcloud compute instances delete {hostname} --zone={instance_zone}"
