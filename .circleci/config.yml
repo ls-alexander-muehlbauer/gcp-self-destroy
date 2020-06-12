@@ -51,19 +51,19 @@ jobs:
       - run: >
           gcloud compute instances describe circle-${CIRCLE_PIPELINE_ID}
           --zone=us-central1-c
-          --format='get(networkInterfaces[0].accessConfigs[0].natIP)' > ~/gcp_instance_ip.txt
+          --format='get(networkInterfaces[0].accessConfigs[0].natIP)' > /root/project/gcp_instance_ip.txt
       - store_artifacts:
-          path: ./*
+          path: /root/project
       - persist_to_workspace:
-          root: ~/
-          path: gcp_instance_ip.txt
+          root: /root
+          path: /project
 
   job1:
     executor: python_3-7
     steps:
       - attach_workspace:
-          at: ~/
-      - run: ping -c 1 $(cat ~/gcp_instance_ip.txt)
+          at: /root
+      - run: ping -c 1 $(cat /root/gcp_instance_ip.txt)
       - run:
           name: "Sleep..."
           command: sleep 30
@@ -71,8 +71,8 @@ jobs:
     executor: python_3-7
     steps:
       - attach_workspace:
-          at: ~/
-      - run: ping -c 1 $(cat ~/gcp_instance_ip.txt)
+          at: /root
+      - run: ping -c 1 $(cat /root/gcp_instance_ip.txt)
       - run:
           name: "Sleep..."
           command: sleep 30
