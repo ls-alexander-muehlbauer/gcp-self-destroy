@@ -63,7 +63,7 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/
-      - run: ping -c 1 $(cat ./gcp_instance_ip.txt)
+      - run: ping -c 1 $(cat ~/gcp_instance_ip.txt)
       - run:
           name: "Sleep..."
           command: sleep 30
@@ -72,7 +72,7 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/
-      - run: ping -c 1 $(cat ./gcp_instance_ip.txt)
+      - run: ping -c 1 $(cat ~/gcp_instance_ip.txt)
       - run:
           name: "Sleep..."
           command: sleep 30
