@@ -49,14 +49,14 @@ jobs:
 
   job1:
     docker:
-      - image: python3.7
+      - image: python:3.7
     steps:
       - run:
           name: "Sleep..."
           command: sleep 30
   job2:
     docker:
-      - image: python3.7
+      - image: python:3.7
     steps:
       - run:
           name: "Sleep..."
