@@ -2,7 +2,6 @@ version: 2.1
 
 orbs:
   welcome: circleci/welcome-orb@0.4.1
-  # vpn-macos: aetna/vpn-macos@1
 
 workflows:
   main:
@@ -31,7 +30,7 @@ jobs:
       - run: >
           gcloud compute instances create
           circle-${CIRCLE_PIPELINE_ID}
-          --zone=${GOOGLE_COMPUTE_ZONE}
+          --zone=us-central1-c
           --image-family=ubuntu-1804-lts
           --image-project=ubuntu-os-cloud
           --boot-disk-size=200GB
