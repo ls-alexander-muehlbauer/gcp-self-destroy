@@ -65,6 +65,7 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/
+      - run: ls -la
       - run: ping -c 1 $(cat ~/gcp_instance_ip.txt)
       - run:
           name: "Sleep..."
@@ -73,7 +74,8 @@ jobs:
     executor: python_3-7
     steps:
       - attach_workspace:
-          at: /root
+          at: ~/
+      - run: ls -la
       - run: ping -c 1 $(cat ~/gcp_instance_ip.txt)
       - run:
           name: "Sleep..."
