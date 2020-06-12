@@ -86,8 +86,8 @@ def get_instance_zone() -> str:
     }
     req = urllib.request.Request(url, headers=headers)
     with urllib.request.urlopen(req) as response:
-        result = response.read()
-    instance_zone = str(result.decode("utf-8")).split("/")[-1]
+        result = response.read().decode("utf-8")
+    instance_zone = str(result).split("/")[-1]
     return instance_zone
 
 
@@ -97,7 +97,7 @@ def get_work_flows(circle_pipeline_id: str, circle_api_token: str) -> List:
     headers = {"Accept": "application/json", "Circle-Token": circle_api_token}
     req = urllib.request.Request(url, headers=headers)
     with urllib.request.urlopen(req) as response:
-        result = response.read()
+        result = response.read().decode("utf-8")
     work_flows = json.loads(result)
     return work_flows.get("items", [])
 
