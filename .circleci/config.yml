@@ -56,8 +56,9 @@ jobs:
       - store_artifacts:
           path: ~/artifacts
       - persist_to_workspace:
-          root: ~/
-          path: .
+          root: .
+          paths:
+              - .
 
   job1:
     executor: python_3-7
