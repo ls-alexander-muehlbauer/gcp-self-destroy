@@ -27,9 +27,9 @@ jobs:
           name: "This is pipeline ID << pipeline.id >>"
           command: echo "This is pipeline ID ${CIRCLE_PIPELINE_ID}"
       - gcloud/initialize:
-          gcloud-service-key: $GCLOUD_SERVICE_KEY
-          google-compute-zone: ${GOOGLE_COMPUTE_ZONE}
-          google-project-id: ${GOOGLE_PROJECT_ID}
+          gcloud-service-key: GCLOUD_SERVICE_KEY
+          google-compute-zone: GOOGLE_COMPUTE_ZONE
+          google-project-id: GOOGLE_PROJECT_ID
       - run: >
           gcloud compute instances create
           circle-${CIRCLE_PIPELINE_ID}
