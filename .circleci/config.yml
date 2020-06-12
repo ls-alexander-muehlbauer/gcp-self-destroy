@@ -7,12 +7,10 @@ executors:
   gcloudsdk:
     docker:
       - image: google/cloud-sdk
-    working_directory: /tmp
 
   python_3-7:
     docker:
       - image: python:3.7
-    working_directory: /tmp
 
 workflows:
   main:
@@ -65,7 +63,7 @@ jobs:
     executor: python_3-7
     steps:
       - attach_workspace:
-          at: /tmp/workspace
+          at: ./workspace
       - run: ping -c 1 $(cat /tmp/workspace/gcp_instance_ip.txt)
       - run:
           name: "Sleep..."
@@ -74,7 +72,7 @@ jobs:
     executor: python_3-7
     steps:
       - attach_workspace:
-          at: /tmp/workspace
+          at: ./workspace
       - run: ping -c 1 $(cat /tmp/workspace/gcp_instance_ip.txt)
       - run:
           name: "Sleep..."
