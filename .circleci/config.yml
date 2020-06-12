@@ -45,6 +45,7 @@ jobs:
           --metadata-from-file startup-script=gcp-keepalive.py
       - run: >
           gcloud compute instances describe circle-${CIRCLE_PIPELINE_ID}
+          --zone=us-central1-c
           --format='get(networkInterfaces[0].accessConfigs[0].natIP)' > ./gcp_instance_ip.txt
       - store_artifacts:
           path: ./gcp_instance_ip.txt
