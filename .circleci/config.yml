@@ -32,8 +32,8 @@ jobs:
       CIRCLE_PIPELINE_ID: "<< pipeline.id >>"
     executor: gcloudsdk
     steps:
-      - run: mkdir -p ./workspace
       - checkout
+      - run: mkdir -p ./workspace
       - run:
           name: "This is pipeline ID << pipeline.id >>"
           command: echo "This is pipeline ID ${CIRCLE_PIPELINE_ID}"
