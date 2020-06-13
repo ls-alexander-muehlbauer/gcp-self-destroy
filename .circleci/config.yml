@@ -66,8 +66,8 @@ jobs:
     steps:
       - attach_workspace:
           at: ./
-      - run: ls -la
-      - run: ping -c 1 $(cat ./artifacts/gcp_instance_ip.txt)
+      - run: cat ./artifacts/gcp_instance_ip.txt
+      - run: sudo ping -c 1 $(cat ./artifacts/gcp_instance_ip.txt)
       - run:
           name: "Sleep..."
           command: sleep 30
@@ -76,8 +76,8 @@ jobs:
     steps:
       - attach_workspace:
           at: ./
-      - run: ls -la
-      - run: ping -c 1 $(cat ./artifacts/gcp_instance_ip.txt)
+      - run: cat ./artifacts/gcp_instance_ip.txt
+      - run: sudo ping -c 1 $(cat ./artifacts/gcp_instance_ip.txt)
       - run:
           name: "Sleep..."
           command: sleep 30
