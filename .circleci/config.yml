@@ -57,9 +57,8 @@ jobs:
   job1:
     executor: python_3-7
     steps:
-      - attach_workspace:
-          at: ./
-      - run: cat ./artifacts/gcp_instance_ip.txt
+      - setup_remote_docker
+      - run: docker ps
       - run:
           name: "Sleep..."
           command: sleep 30
