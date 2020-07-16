@@ -15,7 +15,7 @@ executors:
 workflows:
   main:
     jobs:
-      - job1:
+      - job1
 
 jobs:
   start-gcp:
